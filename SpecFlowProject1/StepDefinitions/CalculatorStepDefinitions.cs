@@ -34,10 +34,36 @@ namespace SpecFlowProject1.StepDefinitions
             _scenarioContext.Add("answer", result);
         }
 
+        [When("the two numbers are subtracted")]
+        public void WhenTheTwoNumbersAreSubtracted()
+        {
+            Calculator c = new();
+            int result = c.SubtractTwoIntegers(_scenarioContext.Get<int>("firstNumber"), _scenarioContext.Get<int>("secondNumber"));
+            _scenarioContext.Add("answer", result);
+        }
+
+        [When("the two numbers are multiplied")]
+        public void WhenTheTwoNumbersAreMultiplied()
+        {
+            Calculator c = new();
+            int result = c.MultiplyTwoIntegers(_scenarioContext.Get<int>("firstNumber"), _scenarioContext.Get<int>("secondNumber"));
+            _scenarioContext.Add("answer", result);
+        }
+
+        [When("the two numbers are divided")]
+        public void WhenTheTwoNumbersAreDivided()
+        {
+            Calculator c = new();
+            int result = c.DivideTwoIntegers(_scenarioContext.Get<int>("firstNumber"), _scenarioContext.Get<int>("secondNumber"));
+            _scenarioContext.Add("answer", result);
+        }
+
         [Then("the result should be (.*)")]
         public void ThenTheResultShouldBe(int result)
         {
             _scenarioContext.Get<int>("answer").Should().Be(result);
         }
+
+
     }
 }
