@@ -47,4 +47,21 @@ Scenario: Divide 100 by 4
 	And the second number is 4
 	When the two numbers are divided
 	Then the result should be 25
+
+Scenario: Multiply real pos and neg numbers
+	Given the first number is 4.33
+	And the second number is 2
+	When the two numbers are multiplied 
+	Then the real result should be 8.66
+
+Scenario: Divide two numbers
+	Given the first number is 4
+	And the second number is 0
+	When the two numbers are divided
+	Then the 'Divide by zero' error should occur
 	
+Scenario: Add two numbers to overflow
+	Given the first number is 2e+38
+	And the second number is 2e+38
+	When the two numbers are added
+	Then the 'Numbers get too large' error should occur

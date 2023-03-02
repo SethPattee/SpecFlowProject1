@@ -14,13 +14,13 @@ namespace SpecFlowProject1.StepDefinitions
         }
 
         [Given("the first number is (.*)")]
-        public void GivenTheFirstNumberIs(int number)
+        public void GivenTheFirstNumberIs(float number)
         { 
             _scenarioContext.Add("firstNumber", number);
         }
 
         [Given("the second number is (.*)")]
-        public void GivenTheSecondNumberIs(int number)
+        public void GivenTheSecondNumberIs(float number)
         {
             _scenarioContext.Add("secondNumber", number);
         }
@@ -28,17 +28,24 @@ namespace SpecFlowProject1.StepDefinitions
         [When("the two numbers are added")]
         public void WhenTheTwoNumbersAreAdded()
         {
-            //TODO: implement act (action) logic
             Calculator c = new();
-            int result = c.AddTwoIntegers(_scenarioContext.Get<int>("firstNumber"), _scenarioContext.Get<int>("secondNumber"));
-            _scenarioContext.Add("answer", result);
+            try
+            {
+                float result = c.AddTwoIntegers(_scenarioContext.Get<float>("firstNumber"), _scenarioContext.Get<float>("secondNumber"));
+                _scenarioContext.Add("answer", result);
+            }
+            catch (Exception ex) 
+            {
+                _scenarioContext.Add("error", ex.Message);
+            }
+           
         }
 
         [When("the two numbers are subtracted")]
         public void WhenTheTwoNumbersAreSubtracted()
         {
             Calculator c = new();
-            int result = c.SubtractTwoIntegers(_scenarioContext.Get<int>("firstNumber"), _scenarioContext.Get<int>("secondNumber"));
+            float result = c.SubtractTwoIntegers(_scenarioContext.Get<float>("firstNumber"), _scenarioContext.Get<float>("secondNumber"));
             _scenarioContext.Add("answer", result);
         }
 
@@ -46,7 +53,7 @@ namespace SpecFlowProject1.StepDefinitions
         public void WhenTheTwoNumbersAreMultiplied()
         {
             Calculator c = new();
-            int result = c.MultiplyTwoIntegers(_scenarioContext.Get<int>("firstNumber"), _scenarioContext.Get<int>("secondNumber"));
+            float result = c.MultiplyTwoIntegers(_scenarioContext.Get<float>("firstNumber"), _scenarioContext.Get<float>("secondNumber"));
             _scenarioContext.Add("answer", result);
         }
 
@@ -54,15 +61,39 @@ namespace SpecFlowProject1.StepDefinitions
         public void WhenTheTwoNumbersAreDivided()
         {
             Calculator c = new();
-            int result = c.DivideTwoIntegers(_scenarioContext.Get<int>("firstNumber"), _scenarioContext.Get<int>("secondNumber"));
-            _scenarioContext.Add("answer", result);
+            try
+            {
+                float result = c.DivideTwoIntegers(_scenarioContext.Get<float>("firstNumber"), _scenarioContext.Get<float>("secondNumber"));
+                _scenarioContext.Add("answer", result);
+            }
+            catch (Exception ee) 
+            {
+                _scenarioContext.Add("error", ee.Message);
+                
+            }
+            
         }
 
         [Then("the result should be (.*)")]
-        public void ThenTheResultShouldBe(int result)
+        public void ThenTheResultShouldBe(float result)
         {
-            _scenarioContext.Get<int>("answer").Should().Be(result);
+            _scenarioContext.Get<float>("answer").Should().Be(result);
         }
+
+
+        [Then("the real result should be (.*)")]
+        public void ThenTheRealResultShouldBe(float result)
+        {
+            _scenarioContext.Get<float>("answer").Should().BeApproximately(result, 0.1f);
+        }
+
+        [Then(@"the '([^']*)' error should occur")]
+        public void ThenTheErrorShouldOccur(string p0)
+        {
+            _scenarioContext.Get<string>("error").Should().Be(p0);
+        }
+
+      
 
 
     }
